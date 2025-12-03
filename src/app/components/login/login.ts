@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  styleUrl: './login.css'
 })
 export class Login {
 
@@ -51,11 +51,9 @@ export class Login {
   }
 
   alertarSiNoRol() {
-    if (!this.loginForm.get('tipo')?.value) {
-      this.mensajeRol = "Primero escoge tu rol";
-      setTimeout(() => this.mensajeRol = null, 2000);
-    }
+    this.mostrarMensaje("Primero escoge tu rol ⚠️", "info");
   }
+
 
   // ====================================================
   // LOGIN ÚNICAMENTE
@@ -71,7 +69,7 @@ export class Login {
       localStorage.setItem("token", "admin-token");
       localStorage.setItem("role", "admin");
 
-      alert("Bienvenido Admin 👑");
+      this.mostrarMensaje("Bienvenido Administrador 👑", "success");
       this.router.navigate(['/admin']);
       return;
     }
@@ -86,14 +84,14 @@ export class Login {
     );
 
     if (!encontrado) {
-      alert("Datos incorrectos ❌");
+      this.mostrarMensaje("Credenciales incorrectas. Por favor, verifica tus datos.", "error");
       return;
     }
 
     localStorage.setItem("token", "user-token");
     localStorage.setItem("role", encontrado.tipo);
 
-    alert(`Bienvenido ${encontrado.tipo.toUpperCase()} 🎓`);
+    this.mostrarMensaje(`Bienvenido ${encontrado.tipo.toUpperCase()} 🎓`, "success");
 
     switch (encontrado.tipo) {
       case "profesor":
@@ -109,4 +107,28 @@ export class Login {
         break;
     }
   }
+
+  mostrarMensaje(texto: string, tipo: "success" | "error" | "info") {
+
+    const toast = document.createElement("div");
+    toast.classList.add("toast-mensaje", tipo);
+    toast.textContent = texto;
+
+    // 🔥 Inserta SIEMPRE en el <body> global
+    document.body.appendChild(toast);
+
+    // Animación de entrada
+    setTimeout(() => {
+      toast.classList.add("show");
+    });
+
+    // Remover después de 3s
+    setTimeout(() => {
+      toast.classList.remove("show");
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+
+
+
 }

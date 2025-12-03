@@ -267,6 +267,8 @@ select {
 }
 
 
+
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .login-card {
@@ -317,3 +319,5 @@ select {
     font-size: 18px;
   }
 }
+
+
