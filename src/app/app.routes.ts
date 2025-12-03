@@ -27,12 +27,36 @@ export const routes: Routes = [
     data: { role: 'admin' }
   },
 
+  {
+    path: 'reportes',
+    loadComponent: () => import('./reportes/reportes').then(m => m.Reportes),
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'admin' }
+  },
+
+
   { path: 'cursos', component: Cursos, canActivate: [AuthGuard] },
 
   // 🔥 ESTAS SON LAS IMPORTANTES
-  { path: 'admin', component: Admin },
-  { path: 'profesor', component: Profesor },
-  { path: 'estudiante', component: Estudiante },
+  {
+    path: 'admin',
+    component: Admin,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'admin' }
+  },
+
+  {
+    path: 'profesor',
+    component: Profesor,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'profesor' }
+  },
+  {
+    path: 'estudiante',
+    component: Estudiante,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'estudiante' }
+  },
 
   { path: '**', redirectTo: 'login' }
 ];

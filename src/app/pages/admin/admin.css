@@ -104,10 +104,11 @@
 }
 
 /* ==========================
-   FOOTER
-   ========================== */
+   Footer
+========================== */
 .footer {
-  width: 97%;
+  width: 100%;
+  box-sizing: border-box;
   text-align: center;
   padding: 18px;
   background: #0d47a1;

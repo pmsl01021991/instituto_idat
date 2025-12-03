@@ -1,0 +1,74 @@
+<!-- NAVBAR INSTITUCIONAL -->
+<nav class="navbar">
+  <div class="nav-container">
+
+    <div class="nav-left">
+      <img src="assets/imagenes/logoidat.png" class="nav-logo">
+      <span class="nav-title">Panel de Reportes</span>
+    </div>
+
+    <button class="hamburger" type="button" (click)="menuOpen = !menuOpen">
+      <i class="bi" [ngClass]="menuOpen ? 'bi-x-lg' : 'bi-list'"></i>
+    </button>
+
+    <div class="nav-right" [class.open]="menuOpen">
+      <a routerLink="/admin">Panel Admin</a>
+      <a routerLink="/cursos">Cursos</a>
+      <a routerLink="/usuarios">Usuarios</a>
+    </div>
+
+  </div>
+</nav>
+
+<section class="reportes-header">
+  <h1>📊 Reportes del Sistema</h1>
+  <p class="subtitulo">Monitoreo centralizado de mensajes enviados por profesores y estudiantes</p>
+</section>
+
+<div class="grid">
+
+  <!-- PROFESORES -->
+  <div class="col">
+    <h2>👩‍🏫 Reportes de Profesores</h2>
+
+    <div *ngFor="let r of profesores" class="card">
+
+      <div class="remitente">
+        <strong>{{ r.remitente }}</strong>
+        <span>{{ r.correo }}</span>
+      </div>
+
+      <p class="texto">{{ r.texto }}</p>
+
+      <div class="fecha">
+        <i class="bi bi-clock"></i> {{ r.fecha }}
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ESTUDIANTES -->
+  <div class="col">
+    <h2>🎓 Reportes de Estudiantes</h2>
+
+    <div *ngFor="let r of estudiantes" class="card">
+
+      <div class="remitente">
+        <strong>{{ r.remitente }}</strong>
+        <span>{{ r.correo }}</span>
+      </div>
+
+      <p class="texto">{{ r.texto }}</p>
+
+      <div class="fecha">
+        <i class="bi bi-clock"></i> {{ r.fecha }}
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <p>© 2025 Instituto Superior Tecnológico • Sistema Académico</p>
+</footer>

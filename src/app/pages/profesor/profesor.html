@@ -13,7 +13,9 @@
         <a (click)="scrollToAlumnos()">Alumnos</a>
         <a routerLink="/notas">Notas</a>
         <a routerLink="/cursos">Cursos</a>
+        <a (click)="scrollToReportes()">Reportes</a>
         <a class="logout-btn" (click)="logout()">Cerrar sesión</a>
+        
     </nav>
 
 </header>
@@ -43,26 +45,9 @@
     <input 
       type="text"
       class="buscador"
-      placeholder="Buscar por nombre o correo..."
+      placeholder="Buscar por nombre..."
       [(ngModel)]="buscador"
     >
-
-    <!-- AGREGAR ALUMNO -->
-    <div class="add-box">
-        <input 
-          type="text" 
-          placeholder="Nombre del alumno"
-          [(ngModel)]="nuevoAlumno.nombre"
-        >
-
-        <input 
-          type="text" 
-          placeholder="Correo (debe iniciar con ac...)"
-          [(ngModel)]="nuevoAlumno.correo"
-        >
-
-        <button (click)="agregarAlumno()">Agregar</button>
-    </div>
 
     <!-- LISTA -->
     <ul class="alumnos-list">
@@ -70,23 +55,15 @@
         <li *ngFor="let a of alumnosFiltrados; let i = index">
 
             <div class="alumno-info">
+              <div *ngIf="editIndex !== i">
+                  <div class="nombre">{{ a.nombre }}</div>
+              </div>
 
-                <!-- NOMBRE -->
-                <span *ngIf="editIndex !== i" class="nombre">{{ a.nombre }}</span>
-                <input 
-                  *ngIf="editIndex === i"
-                  type="text"
-                  [(ngModel)]="alumnoEditado.nombre"
-                >
+              <div *ngIf="editIndex === i">
+                  <input type="text" [(ngModel)]="alumnoEditado.nombre">
+              </div>
+          </div>
 
-                <!-- CORREO -->
-                <span *ngIf="editIndex !== i" class="correo">{{ a.correo }}</span>
-                <input 
-                  *ngIf="editIndex === i"
-                  type="text"
-                  [(ngModel)]="alumnoEditado.correo"
-                >
-            </div>
 
             <div class="actions">
                 <button *ngIf="editIndex !== i" (click)="editarAlumno(i)">Editar</button>
@@ -99,6 +76,24 @@
     </ul>
 
 </section>
+
+<!-- ==========================
+      SECCIÓN DE REPORTES
+=========================== -->
+<section class="reportes-section" id="reportesSection">
+
+  <h2 class="title-section">Enviar reporte al Administrador</h2>
+
+  <textarea 
+    [(ngModel)]="reporteTexto"
+    placeholder="Escribe tu reporte aquí..."
+    class="reporte-textarea"
+  ></textarea>
+
+  <button class="btn-enviar" (click)="enviarReporte()">Enviar Reporte</button>
+
+</section>
+
 
 
 <!-- FOOTER -->

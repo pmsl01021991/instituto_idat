@@ -90,6 +90,8 @@ export class Login {
 
     localStorage.setItem("token", "user-token");
     localStorage.setItem("role", encontrado.tipo);
+    localStorage.setItem("nombre", encontrado.nombre);
+    localStorage.setItem("correo", encontrado.email);
 
     this.mostrarMensaje(`Bienvenido ${encontrado.tipo.toUpperCase()} 🎓`, "success");
 

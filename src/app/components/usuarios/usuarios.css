@@ -240,6 +240,67 @@ button[title]:hover::after {
   color: white;
 }
 
+
+/* ==========================
+   SECCIÓN: USUARIOS REGISTRADOS
+   ========================== */
+
+/* Título "Usuarios Registrados" más elegante */
+.card h3 {
+  margin-top: 35px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #1a237e;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e3e7ff;
+}
+
+/* Tabla más limpia y separada */
+.card table {
+  margin-top: 15px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fafbff;
+}
+
+/* Encabezados de la tabla */
+.card thead th {
+  background: #eef3ff;
+  color: #1f2933;
+  font-weight: 600;
+  border-bottom: 1px solid #dde3f4;
+}
+
+/* Filas principales (email, tipo, acciones) */
+.card tbody tr:not(.nombre-extra) td {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+/* Fila extra con el nombre */
+.nombre-extra {
+  background: #f5f7ff;
+}
+
+.nombre-extra td {
+  padding: 6px 24px 10px;
+  border-bottom: 1px solid #e1e6ff;
+  font-size: 13px;
+  color: #455a64;
+}
+
+/* Estilo del texto "Nombre:" */
+.nombre-extra td b {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #78909c;
+  margin-right: 6px;
+}
+
+
+
+
 /* BOTÓN HAMBURGUESA */
 .hamburger {
   display: none;
@@ -254,6 +315,22 @@ button[title]:hover::after {
 .hamburger:hover {
   color: #bbdefb;
 }
+
+
+/* ==========================
+   Footer
+========================== */
+.footer {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 18px;
+  background: #0d47a1;
+  color: white;
+  font-size: 14px;
+  margin-top: 40px;
+}
+
 
 /* NAV RESPONSIVE - SOLO CUANDO ES MÓVIL */
 @media (max-width: 700px) {
@@ -278,19 +355,6 @@ button[title]:hover::after {
   }
 }
 
-
-/* ==========================
-   FOOTER
-   ========================== */
-.footer {
-  width: 100%;
-  text-align: center;
-  padding: 18px;
-  background: #0d47a1;
-  color: white;
-  font-size: 14px;
-  margin-top: 40px;
-}
 
 
 /* ==========================

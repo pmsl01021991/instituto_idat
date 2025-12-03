@@ -15,8 +15,6 @@
     <div class="nav-right" [class.open]="menuOpen">
       <a routerLink="/admin">Panel Admin</a>
       <a routerLink="/cursos">Cursos</a>
-      <a routerLink="/profesores">Profesores</a>
-      <a routerLink="/estudiante">Alumnos</a>
     </div>
   </div>
 </nav>
@@ -35,6 +33,14 @@
 
     <!-- FORMULARIO -->
     <form (ngSubmit)="guardarUsuario()">
+
+      <input 
+        type="text"
+        placeholder="Nombre completo"
+        [(ngModel)]="nuevoUsuario.nombre"
+        name="nombre"
+        required>
+
 
       <input type="email"
              placeholder="Email (pc... o ac...)"
@@ -73,22 +79,36 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let u of usuariosFiltrados; let i = index">
-          <td>{{ u.email }}</td>
-          <td>{{ u.tipo | titlecase }}</td>
 
-          <td class="acciones">
-            <button class="btn-edit" (click)="editarUsuario(i)" >
-              <i class="bi bi-pencil"></i><b>Editar</b>
-            </button>
+        <ng-container *ngFor="let u of usuariosFiltrados; let i = index">
+          
+          <!-- FILA PRINCIPAL -->
+          <tr>
+            <td>{{ u.email }}</td>
+            <td>{{ u.tipo | titlecase }}</td>
 
-            <button class="btn-delete" (click)="eliminarUsuario(i)" >
-              <i class="bi bi-trash"></i>Eliminar
-            </button>
-          </td>
+            <td class="acciones">
+              <button class="btn-edit" (click)="editarUsuario(i)">
+                <i class="bi bi-pencil"></i><b>Editar</b>
+              </button>
 
-        </tr>
+              <button class="btn-delete" (click)="eliminarUsuario(i)">
+                <i class="bi bi-trash"></i>Eliminar
+              </button>
+            </td>
+          </tr>
+
+          <!-- FILA DEL NOMBRE (debajo del correo) -->
+          <tr class="nombre-extra">
+            <td colspan="3">
+              <b>Nombre:</b> {{ u.nombre }}
+            </td>
+          </tr>
+
+        </ng-container>
+
       </tbody>
+
     </table>
 
     <p *ngIf="usuariosFiltrados.length == 0" class="no-users">
