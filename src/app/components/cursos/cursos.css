@@ -1,0 +1,276 @@
+/* ==========================
+   LAYOUT GENERAL
+   ========================== */
+.page-wrapper {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================
+   NAVBAR
+   ========================== */
+.navbar {
+  width: 100%;
+  background: #0d47a1;
+  padding: 12px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.nav-container {
+  width: 98%;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  background: white;
+  padding: 5px;
+  object-fit: contain;
+}
+
+.nav-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.nav-right a {
+  margin-left: 20px;
+  color: #bbdefb;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.nav-right a:hover,
+.nav-right a.active {
+  color: white;
+}
+
+/* BOTÓN HAMBURGUESA */
+.hamburger {
+  display: none;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+
+/* ==========================
+   CARD
+   ========================== */
+.cursos-container {
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  width: 90%;
+  max-width: 900px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+
+/* ==========================
+   FORMULARIO
+   ========================== */
+form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+form input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+form button {
+  grid-column: span 3;
+  padding: 12px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: .2s;
+}
+
+form button:hover {
+  background: #125ca1;
+}
+
+/* ==========================
+   TABLA
+   ========================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th {
+  background: #f5f5f5;
+}
+
+th, td {
+  padding: 14px;
+  border-bottom: 1px solid #ddd;
+}
+
+.edit {
+  background: #ffa000;
+  border: none;
+  padding: 6px 10px;
+  color: white;
+  border-radius: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.delete {
+  background: #d32f2f;
+  border: none;
+  padding: 6px 10px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* ==========================
+   FOOTER
+   ========================== */
+.footer {
+  width: 97%;
+  text-align: center;
+  padding: 18px;
+  background: #0d47a1;
+  color: white;
+  font-size: 14px;
+  margin-top: auto;
+}
+
+/* ==========================
+   RESPONSIVE REAL
+   ========================== */
+
+/* RESPONSIVE DEL NAV */
+@media (max-width: 700px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-right {
+    display: none;
+    flex-direction: column;
+    background: #0d47a1;
+    width: 100%;
+    padding: 15px 0;
+    gap: 12px;
+    margin-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .nav-right.open {
+    display: flex;
+  }
+
+  /* Formulario en columna, nada de grid */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  form input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  form button {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  /* Tarjeta más compacta */
+  .card {
+    width: 100%;
+    padding: 18px;
+  }
+
+  /* Tabla más pequeña pero sin romperse */
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 10px 6px;
+  }
+
+  /* Evitar scroll horizontal */
+  html, body {
+    overflow-x: hidden;
+  }
+
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+  .card {
+    width: 95%;
+  }
+}
+
+
+
+/* Celulares pequeños */
+@media (max-width: 420px) {
+
+  .nav-title {
+    font-size: 15px;
+  }
+
+  form input {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  form button {
+    padding: 9px;
+    font-size: 13px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+}

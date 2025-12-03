@@ -1,0 +1,271 @@
+/* ============================================
+   NAVBAR
+============================================ */
+.navbar-prof {
+  background: #000;
+  color: white;
+  padding: 18px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  position: relative;
+}
+
+.logo-prof h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.logo-prof .sub {
+  font-size: 12px;
+  opacity: .6;
+}
+
+/* --- MENÚ DESKTOP --- */
+.menu-prof {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.menu-prof a {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.menu-prof a:hover {
+  color: #a86cf2;
+  transition: .3s;
+}
+
+/* --- HAMBURGUESA (ÚNICA Y FINAL) --- */
+.admin-hamburger {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  display: none;
+}
+
+/* ============================================
+   HERO SECTION
+============================================ */
+.hero-prof {
+  display: flex;
+  height: 150vh;
+  background: linear-gradient(90deg, #8b2ff8 50%, white 50%);
+}
+
+.hero-prof .left {
+  width: 50%;
+  padding: 130px 60px;
+  color: white;
+}
+
+.hero-prof h1 {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.hero-prof p {
+  font-size: 18px;
+  max-width: 450px;
+}
+
+.hero-prof .right {
+  width: 50%;
+  overflow: hidden; /* 🟣 Recorta la imagen para que nunca sobresalga */
+}
+
+.hero-prof img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 🔥 Ajusta la imagen al contenedor SIN deformarse */
+}
+
+
+/* ============================================
+   BOTÓN LOGOUT
+============================================ */
+.logout-btn {
+  background: #e03232;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.logout-btn:hover {
+  background: #c41f1f;
+}
+
+/* ============================================
+   SECCIÓN ALUMNOS
+============================================ */
+.alumnos-section {
+  padding: 40px;
+  background: #f3f4f6;
+  margin-top: 40px;
+  border-top: 3px solid #0d47a1;
+}
+
+.title-section {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #0d47a1;
+}
+
+.buscador {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+  margin-bottom: 25px;
+}
+
+.add-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-box input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+}
+
+.add-box button {
+  padding: 10px 18px;
+  background: #0d47a1;
+  color: white;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+}
+
+.alumnos-list {
+  list-style: none;
+  padding: 0;
+}
+
+.alumnos-list li {
+  background: white;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid #0d47a1;
+}
+
+.actions button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #0d47a1;
+  color: white;
+}
+
+.delete-btn {
+  background: #dc2626 !important;
+}
+
+.footer {
+  width: 100%;             /* ✔ Ocupar siempre toda la pantalla */
+  text-align: center;
+  padding: 18px 10px;      /* ✔ Padding adaptable */
+  background: #0d47a1;
+  color: white;
+  font-size: 14px;
+  margin-top: 0;
+  box-sizing: border-box;  /* ✔ Evita desbordes */
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+
+/* --- TABLETS Y MÓVILES --- */
+@media (max-width: 768px) {
+
+  .admin-hamburger {
+    display: block;
+  }
+
+  .menu-prof {
+    display: none;
+    flex-direction: column;
+    background: #000;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    padding: 20px;
+    width: 180px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  }
+
+  .menu-prof.open {
+    display: flex;
+  }
+
+  .menu-prof a {
+    margin: 12px 0;
+  }
+
+  .hero-prof {
+    flex-direction: column;
+    height: auto;
+    text-align: center;
+    background: #8b2ff8;
+  }
+
+  .hero-prof .left,
+  .hero-prof .right {
+    width: 94%;
+    padding: 40px 20px;
+  }
+
+  .add-box {
+    flex-direction: column;
+  }
+
+  .actions {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .footer {
+    font-size: 13px;
+    padding: 16px 10px;
+  }
+}
+
+/* --- CELULARES --- */
+@media (max-width: 480px) {
+  .hero-prof h1 {
+    font-size: 28px;
+  }
+  .hero-prof p {
+    font-size: 15px;
+  }
+
+  .footer {
+    font-size: 12px;
+    padding: 14px 8px;     /* ✔ Más compacto para pantallas chicas */
+    line-height: 1.4;
+  }
+}

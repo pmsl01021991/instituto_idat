@@ -1,0 +1,106 @@
+<!-- NAVBAR INSTITUCIONAL -->
+<nav class="navbar">
+  <div class="nav-container">
+
+    <div class="nav-left">
+      <img src="assets/imagenes/logoidat.png" class="nav-logo">
+      <span class="nav-title">Instituto Superior - Gestión de Usuarios</span>
+    </div>
+
+     <!-- BOTÓN HAMBURGUESA -->
+    <button class="hamburger" type="button" (click)="menuOpen = !menuOpen">
+      <i class="bi" [ngClass]="menuOpen ? 'bi-x-lg' : 'bi-list'"></i>
+    </button>
+
+    <div class="nav-right" [class.open]="menuOpen">
+      <a routerLink="/admin">Panel Admin</a>
+      <a routerLink="/cursos">Cursos</a>
+      <a routerLink="/profesores">Profesores</a>
+      <a routerLink="/estudiante">Alumnos</a>
+    </div>
+  </div>
+</nav>
+
+
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="usuarios-container">
+  <div class="card">
+
+    <h2><i class="bi bi-people-fill"></i> Gestión de Usuarios</h2>
+
+    <!-- BUSCADOR -->
+    <input type="text" class="search" placeholder="Buscar por email o tipo..."
+           [(ngModel)]="buscador">
+
+    <!-- FORMULARIO -->
+    <form (ngSubmit)="guardarUsuario()">
+
+      <input type="email"
+             placeholder="Email (pc... o ac...)"
+             [(ngModel)]="nuevoUsuario.email"
+             name="email"
+             required>
+
+      <input type="password"
+             placeholder="Contraseña"
+             [(ngModel)]="nuevoUsuario.pass"
+             name="pass"
+             required>
+
+      <select [(ngModel)]="nuevoUsuario.tipo" name="tipo" required>
+        <option value="">Seleccione tipo...</option>
+        <option value="profesor">Profesor</option>
+        <option value="estudiante">Estudiante</option>
+      </select>
+
+      <button type="submit">
+        <i class="bi" [ngClass]="editIndex !== null ? 'bi-pencil-fill' : 'bi-plus-circle-fill'"></i>
+        {{ editIndex !== null ? 'Actualizar Usuario' : 'Crear Usuario' }}
+      </button>
+
+    </form>
+
+    <h3>Usuarios Registrados</h3>
+
+    <table *ngIf="usuariosFiltrados.length > 0">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Tipo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let u of usuariosFiltrados; let i = index">
+          <td>{{ u.email }}</td>
+          <td>{{ u.tipo | titlecase }}</td>
+
+          <td class="acciones">
+            <button class="btn-edit" (click)="editarUsuario(i)" >
+              <i class="bi bi-pencil"></i><b>Editar</b>
+            </button>
+
+            <button class="btn-delete" (click)="eliminarUsuario(i)" >
+              <i class="bi bi-trash"></i>Eliminar
+            </button>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="usuariosFiltrados.length == 0" class="no-users">
+      No se encontraron usuarios.
+    </p>
+
+  </div>
+</div>
+
+
+
+<!-- FOOTER INSTITUCIONAL -->
+<footer class="footer">
+  <p>© 2025 Instituto Superior Tecnológico • Sistema Académico</p>
+</footer>

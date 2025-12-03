@@ -1,0 +1,47 @@
+<div class="background"></div>
+
+<div class="login-card">
+
+    <div class="logo">
+        <img src="../../../assets/imagenes/logoidat.png" width="200">
+    </div>
+
+    <h2>Hola, soy <b>EVA</b></h2>
+    <p class="sub">¡Hoy será un buen día!</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+        <label>Tipo de usuario</label>
+        <select formControlName="tipo" (change)="onTipoChange()">
+            <option value="">Seleccione una opción</option>
+            <option *ngFor="let t of userTypes" [value]="t">{{ t | titlecase }}</option>
+        </select>
+
+        <div class="error" *ngIf="loginForm.get('tipo')?.touched && loginForm.get('tipo')?.hasError('required')">
+            Debes seleccionar un rol antes de continuar.
+        </div>
+
+        <label>Código de usuario</label>
+        <div class="input-wrapper">
+            <input type="text" formControlName="codigo" placeholder="Ingresa el usuario">
+            <div class="bloqueo" *ngIf="loginForm.get('codigo')?.disabled" (click)="alertarSiNoRol()"></div>
+        </div>
+
+        <small class="example">Ejemplo: LN1533148</small>
+
+        <label>Contraseña</label>
+        <div class="password-box input-wrapper">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Ingresa tu contraseña">
+            <span class="eye" (click)="togglePassword()">{{ showPassword ? '👁️' : '🙈' }}</span>
+            <div class="bloqueo" *ngIf="loginForm.get('password')?.disabled" (click)="alertarSiNoRol()"></div>
+        </div>
+
+        <button type="submit" class="btn-login">Iniciar sesión</button>
+
+        <div *ngIf="mensajeRol" class="alerta-rol">{{ mensajeRol }}</div>
+
+    </form>
+
+    <a class="forgot">¿Olvidaste tu contraseña?</a>
+
+</div>

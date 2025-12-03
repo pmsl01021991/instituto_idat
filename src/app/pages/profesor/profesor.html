@@ -1,0 +1,107 @@
+<header class="navbar-prof">
+    <div class="logo-prof">
+        <h2>PROFESOR</h2>
+        <span class="sub">Panel Académico</span>
+    </div>
+
+    <button class="admin-hamburger" (click)="menuOpen = !menuOpen">
+      <i class="bi" [ngClass]="menuOpen ? 'bi-x-lg' : 'bi-list'"></i>
+    </button>
+
+
+    <nav class="menu-prof" [class.open]="menuOpen">
+        <a (click)="scrollToAlumnos()">Alumnos</a>
+        <a routerLink="/notas">Notas</a>
+        <a routerLink="/cursos">Cursos</a>
+        <a class="logout-btn" (click)="logout()">Cerrar sesión</a>
+    </nav>
+
+</header>
+
+<section class="hero-prof">
+    <div class="left">
+        <h1>Bienvenido Profesor (a)</h1>
+        <p>
+            Gestiona tus alumnos, registra notas y administra tus cursos 
+            desde un solo lugar.
+        </p>
+    </div>
+
+    <div class="right">
+        <img src="../../../assets/imagenes/profesora.png" alt="Profesor">
+    </div>
+</section>
+
+<!-- ==========================
+      SECCIÓN DE ALUMNOS
+=========================== -->
+<section class="alumnos-section" id="alumnosSection">
+    
+    <h2 class="title-section">Lista de Alumnos</h2>
+
+    <!-- BUSCADOR -->
+    <input 
+      type="text"
+      class="buscador"
+      placeholder="Buscar por nombre o correo..."
+      [(ngModel)]="buscador"
+    >
+
+    <!-- AGREGAR ALUMNO -->
+    <div class="add-box">
+        <input 
+          type="text" 
+          placeholder="Nombre del alumno"
+          [(ngModel)]="nuevoAlumno.nombre"
+        >
+
+        <input 
+          type="text" 
+          placeholder="Correo (debe iniciar con ac...)"
+          [(ngModel)]="nuevoAlumno.correo"
+        >
+
+        <button (click)="agregarAlumno()">Agregar</button>
+    </div>
+
+    <!-- LISTA -->
+    <ul class="alumnos-list">
+
+        <li *ngFor="let a of alumnosFiltrados; let i = index">
+
+            <div class="alumno-info">
+
+                <!-- NOMBRE -->
+                <span *ngIf="editIndex !== i" class="nombre">{{ a.nombre }}</span>
+                <input 
+                  *ngIf="editIndex === i"
+                  type="text"
+                  [(ngModel)]="alumnoEditado.nombre"
+                >
+
+                <!-- CORREO -->
+                <span *ngIf="editIndex !== i" class="correo">{{ a.correo }}</span>
+                <input 
+                  *ngIf="editIndex === i"
+                  type="text"
+                  [(ngModel)]="alumnoEditado.correo"
+                >
+            </div>
+
+            <div class="actions">
+                <button *ngIf="editIndex !== i" (click)="editarAlumno(i)">Editar</button>
+                <button *ngIf="editIndex === i" (click)="guardarAlumno(i)">Guardar</button>
+                <button class="delete-btn" (click)="eliminarAlumno(i)">Eliminar</button>
+            </div>
+
+        </li>
+
+    </ul>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>© 2025 Instituto Superior Tecnológico • Sistema Académico</p>
+</footer>

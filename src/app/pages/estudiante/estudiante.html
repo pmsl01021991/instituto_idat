@@ -1,0 +1,76 @@
+<div class="page-wrapper">
+
+  <nav class="navbar">
+    <div class="nav-container">
+
+      <div class="nav-left">
+        <img src="assets/imagenes/logoidat.png" class="nav-logo">
+        <span class="nav-title">Instituto Superior </span>
+      </div>
+
+      <button class="hamburger" type="button" (click)="menuOpen = !menuOpen">
+        <i class="bi" [ngClass]="menuOpen ? 'bi-x-lg' : 'bi-list'"></i>
+      </button>
+
+      <div class="nav-right" [class.open]="menuOpen">
+        <a class="logout-btn" (click)="logout()">Cerrar sesión</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <h1 class="titulo-principal">Tablero del Estudiante</h1>
+
+      <section class="cursos-section">
+        <h2 class="titulo-secundario">Cursos Matriculados</h2>
+
+
+        <div class="cursos-grid">
+          <div 
+            class="curso-card"
+            *ngFor="let c of cursos; let i = index"
+            (click)="toggleCurso(i)"
+            [class.open]="cursoAbierto === i"
+          >
+              <span class="color-line" [ngClass]="c.color"></span>
+              <h3>{{ c.nombre }}</h3>
+          </div>
+
+        </div>
+
+        <!-- AQUI APARECE LA INFORMACIÓN FUERA DE LA TARJETA -->
+        <div class="curso-detalle-externo" *ngIf="cursoAbierto !== null">
+          
+          <h2 class="detalle-titulo">{{ cursos[cursoAbierto].nombre }}</h2>
+
+          <p class="detalle-profesor">
+            <strong>Docente:</strong> {{ cursos[cursoAbierto].docente }}
+          </p>
+
+          <p class="detalle-notas">
+            <strong>Notas:</strong> {{ cursos[cursoAbierto].notas || 'Sin notas registradas' }}
+          </p>
+
+          <textarea 
+            [(ngModel)]="cursos[cursoAbierto].reporte"
+            placeholder="Escribe aquí un comentario o reporte para el profesor..."
+          ></textarea>
+
+          <button class="btn-reporte" (click)="enviarReporte(cursos[cursoAbierto])">
+            Enviar reporte
+          </button>
+
+        </div>
+
+
+      </section>
+
+  </main>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>© 2025 Instituto Superior Tecnológico • Sistema Académico</p>
+</footer>

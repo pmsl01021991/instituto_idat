@@ -1,0 +1,41 @@
+<header class="navbar-admin">
+  <div class="logo-admin">
+      <h2>ADMINISTRADOR</h2>
+      <span class="sub">Panel de Control</span>
+  </div>
+
+  <button class="admin-hamburger" (click)="menuOpen = !menuOpen">
+    <i class="bi" [ngClass]="menuOpen ? 'bi-x-lg' : 'bi-list'"></i>
+  </button>
+
+
+  <nav class="menu-admin" [class.open]="menuOpen">
+      <a routerLink="/usuarios">Usuarios</a>
+      <a routerLink="/alumnos">Alumnos</a>
+      <a routerLink="/profesores">Profesores</a>
+      <a routerLink="/cursos">Cursos</a>
+      <a routerLink="/notas">Notas</a>
+      <a routerLink="/reportes">Reportes</a>
+      <a class="logout-btn" (click)="logout()">Cerrar sesión</a>
+
+  </nav>
+</header>
+
+<section class="admin-hero">
+  <div class="left">
+      <h1>Bienvenido Administrador</h1>
+      <p>
+          Controla toda la plataforma académica: gestiona usuarios, cursos,
+          profesores, estudiantes y reportes desde este panel centralizado.
+      </p>
+  </div>
+
+  <div class="right">
+      <img src="../../../assets/imagenes/administrador.png" alt="Administrador">
+  </div>
+</section>
+
+<!-- FOOTER INSTITUCIONAL -->
+<footer class="footer">
+  <p>© 2025 Instituto Superior Tecnológico • Sistema Académico</p>
+</footer>
