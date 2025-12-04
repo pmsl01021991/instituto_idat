@@ -1,6 +1,0 @@
-{
-  "clean_urls": true,
-  "redirects": [
-    { "source": "/**", "destination": "/index.html" }
-  ]
-}
