@@ -169,19 +169,6 @@ html, body {
   border-left: 4px solid #0d47a1;
 }
 
-.actions button {
-  margin-left: 10px;
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: none;
-  background: #0d47a1;
-  color: white;
-}
-
-.delete-btn {
-  background: #dc2626 !important;
-}
-
 .reportes-section {
   width: 100% !important;
   max-width: 100%;
@@ -384,16 +371,6 @@ section, div, nav, header, footer {
     gap: 10px;
   }
 
-  .actions {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-  }
-
-  .actions button {
-    flex: none;
-  }
 }
 
 

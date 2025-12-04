@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { Auth, createUserWithEmailAndPassword, deleteUser } from '@angular/fire/auth';
 import { 
   Firestore, 
@@ -49,6 +50,14 @@ export class UsuariosService {
     const coleccion = collection(this.firestore, 'usuarios');
     return collectionData(coleccion, { idField: 'uid' }) as Observable<any[]>;
   }
+
+  obtenerEstudiantes() {
+    const ref = collection(this.firestore, 'usuarios');
+    return collectionData(ref, { idField: 'uid' }).pipe(
+        map((usuarios: any[]) => usuarios.filter(u => u.tipo === 'estudiante'))
+    );
+    }
+
 
   // =======================================================
   //  ACTUALIZAR USUARIO EN FIRESTORE

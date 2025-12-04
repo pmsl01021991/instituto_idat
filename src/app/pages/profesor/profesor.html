@@ -39,44 +39,33 @@
       SECCIÓN DE ALUMNOS
 =========================== -->
 <section class="alumnos-section" id="alumnosSection">
-    
-    <h2 class="title-section">Lista de Alumnos</h2>
 
-    <!-- BUSCADOR -->
-    <input 
-      type="text"
-      class="buscador"
-      placeholder="Buscar por nombre..."
-      [(ngModel)]="buscador"
-    >
+  <h2 class="title-section">Lista de Alumnos</h2>
 
-    <!-- LISTA -->
-    <ul class="alumnos-list">
+  <!-- BUSCADOR -->
+  <input 
+    type="text"
+    class="buscador"
+    placeholder="Buscar por nombre..."
+    [(ngModel)]="buscador"
+  >
 
-        <li *ngFor="let a of alumnosFiltrados; let i = index">
+  <!-- LISTA REAL DE FIRESTORE -->
+  <ul class="alumnos-list">
 
-            <div class="alumno-info">
-              <div *ngIf="editIndex !== i">
-                  <div class="nombre">{{ a.nombre }}</div>
-              </div>
+      <li *ngFor="let a of alumnosFiltrados">
 
-              <div *ngIf="editIndex === i">
-                  <input type="text" [(ngModel)]="alumnoEditado.nombre">
-              </div>
+          <div class="alumno-info">
+              <div class="nombre">{{ a.nombre }}</div>
+              <div class="correo">{{ a.email }}</div>
           </div>
 
+      </li>
 
-            <div class="actions">
-                <button *ngIf="editIndex !== i" (click)="editarAlumno(i)">Editar</button>
-                <button *ngIf="editIndex === i" (click)="guardarAlumno(i)">Guardar</button>
-                <button class="delete-btn" (click)="eliminarAlumno(i)">Eliminar</button>
-            </div>
-
-        </li>
-
-    </ul>
+  </ul>
 
 </section>
+
 
 <!-- ==========================
       SECCIÓN DE REPORTES

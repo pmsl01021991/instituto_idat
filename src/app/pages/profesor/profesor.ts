@@ -5,7 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReportesService } from '../../services/reportes.service';
 import { ToastService } from '../../services/toast.service';
-
+import { UsuariosService } from '../../services/usuarios.service';
+import { Firestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'profesor-navbar',
@@ -15,99 +16,74 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./profesor.css']
 })
 export class Profesor {
+
   reporteTexto: string = "";
-
-
   alumnos: any[] = [];
   buscador = "";
+  menuOpen = false;
 
-  editIndex: number | null = null;
-  alumnoEditado = { nombre: "", correo: "" };
+  constructor(
+    private router: Router,
+    private reportesService: ReportesService,
+    private toast: ToastService,
+    private usuariosService: UsuariosService
+  ) {
 
-  constructor(private router: Router, private reportesService: ReportesService, private toast: ToastService) {
-    const data = localStorage.getItem("alumnosSistema");
-    if (data) this.alumnos = JSON.parse(data);
+    // 🔥 Cargar ESTUDIANTES REALES desde Firestore
+    this.usuariosService.obtenerEstudiantes().subscribe((lista) => {
+      this.alumnos = lista;
+    });
   }
 
   logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    localStorage.removeItem("correo");
+    localStorage.removeItem("nombre");
     this.router.navigate(['/login']);
   }
 
-  // FILTRO DE BÚSQUEDA
+  // 🔍 FILTRO DE BÚSQUEDA
   get alumnosFiltrados() {
     return this.alumnos.filter(a =>
-      a.nombre.toLowerCase().includes(this.buscador.toLowerCase()) 
+      a.nombre.toLowerCase().includes(this.buscador.toLowerCase())
     );
   }
 
-  guardarLocal() {
-    localStorage.setItem("alumnosSistema", JSON.stringify(this.alumnos));
-  }
+  async enviarReporte() {
 
-  // EDITAR ALUMNO
-  editarAlumno(i: number) {
-    this.editIndex = i;
-    this.alumnoEditado = { ...this.alumnos[i] };
-  }
+    if (!this.reporteTexto.trim()) {
+      this.toast.error("El reporte no puede estar vacío.");
+      return;
+    }
 
-  // GUARDAR CAMBIOS (solo el nombre)
-  guardarAlumno(i: number) {
-    const { nombre } = this.alumnoEditado;
+    const correo = localStorage.getItem("correo") || "correo_no_registrado";
+    const nombre = localStorage.getItem("nombre") || "Profesor";
 
-    if (!nombre)
-      return alert("El nombre no puede estar vacío.");
+    const resultado = await this.reportesService.guardarReporte('profesor', {
+      remitente: nombre,
+      correo: correo,
+      texto: this.reporteTexto,
+      fecha: new Date().toLocaleString()
+    });
 
-    // Solo actualiza el nombre — el correo nunca se edita aquí
-    this.alumnos[i].nombre = nombre;
+    if (!resultado.ok) {
+      this.toast.error("Error al enviar reporte: " + resultado.mensaje);
+      return;
+    }
 
-    this.editIndex = null;
-    this.guardarLocal();
-  }
-
-  // ELIMINAR
-  eliminarAlumno(i: number) {
-    this.alumnos.splice(i, 1);
-    this.guardarLocal();
+    this.toast.success("Reporte enviado correctamente.");
+    this.reporteTexto = "";
   }
 
   scrollToAlumnos() {
-    document.getElementById('alumnosSection')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('alumnosSection')
+      ?.scrollIntoView({ behavior: 'smooth' });
   }
 
   scrollToReportes() {
     document.getElementById('reportesSection')
       ?.scrollIntoView({ behavior: 'smooth' });
   }
-
-
-    async enviarReporte() {
-
-      if (!this.reporteTexto.trim()) {
-        this.toast.error("El reporte no puede estar vacío.");
-        return;
-      }
-
-      // Obtener datos del profesor guardados al iniciar sesión
-      const correo = localStorage.getItem("correo") || "correo_no_registrado";
-      const nombre = localStorage.getItem("nombre") || "Profesor";
-
-      const resultado = await this.reportesService.guardarReporte('profesor', {
-        remitente: nombre,
-        correo: correo,
-        texto: this.reporteTexto
-      });
-
-      if (!resultado.ok) {
-        this.toast.error("Error al enviar reporte: " + resultado.mensaje);
-        return;
-      }
-
-      this.toast.success("Reporte enviado correctamente.");
-      this.reporteTexto = "";
-    }
-
-  menuOpen = false;
 
 }
