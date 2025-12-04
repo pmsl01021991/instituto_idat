@@ -176,6 +176,21 @@ Aquí es donde se suben los cambios:
 
 firebase deploy
 
+🛡️ Configuración de Reglas de Firestore
+
+Para permitir el correcto funcionamiento de la autenticación y lectura/escritura de datos durante el desarrollo del proyecto, se configuraron reglas de Firestore que habilitan el acceso total a la base de datos. Esta configuración es útil únicamente para entornos de prueba o desarrollo, ya que facilita la integración con Firebase Auth y la lectura/escritura desde Angular sin restricciones.
+
+✔️ Reglas utilizadas (modo desarrollo)
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+
 ------------------------------------------------------------------------
 
 ## ✅ Resultado
