@@ -160,7 +160,7 @@ Firebase mostrará la URL final:
 
 🔗 **https://examen-final-d4923.web.app**
 
-2. Construye el proyecto para producción
+6. Construye el proyecto para producción
 
 Ejecuta:
 
