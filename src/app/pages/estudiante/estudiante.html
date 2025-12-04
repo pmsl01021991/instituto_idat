@@ -47,20 +47,28 @@
           <p class="detalle-notas">
             <strong>Notas:</strong> {{ cursos[cursoAbierto].notas || 'Sin notas registradas' }}
           </p>
-
-          <textarea 
-            [(ngModel)]="cursos[cursoAbierto].reporte"
-            placeholder="Escribe aquí un comentario o reporte para el profesor..."
-          ></textarea>
-
-          <button class="btn-reporte" (click)="enviarReporte(cursos[cursoAbierto])">
-            Enviar reporte
-          </button>
-
         </div>
 
 
       </section>
+
+      <section class="reportes-section">
+
+        <h2 class="title-section">Enviar reporte al Administrador</h2>
+
+        <div class="reportes-box">
+          <textarea 
+            [(ngModel)]="reporteTexto"
+            placeholder="Escribe tu reporte aquí..."
+            class="reporte-textarea"
+          ></textarea>
+
+          <button class="btn-enviar" (click)="enviarReporte()">Enviar Reporte</button>
+        </div>
+
+      </section>
+
+
 
   </main>
 

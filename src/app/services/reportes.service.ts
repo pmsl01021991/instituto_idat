@@ -51,8 +51,18 @@ export class ReportesService {
       snapshot.forEach((doc) => {
         const data = doc.data();
 
-        if (data['tipo'] === 'profesor') profesores.push(data);
-        if (data['tipo'] === 'estudiante') estudiantes.push(data);
+        // 👉 Conversión segura (acepta timestamp y string)
+        const fechaReal = (data['fecha']?.toDate)
+          ? data['fecha'].toDate().toLocaleString()
+          : (typeof data['fecha'] === 'string' ? data['fecha'] : '');
+
+        const reporte = {
+          ...data,
+          fecha: fechaReal
+        };
+
+        if (data['tipo'] === 'profesor') profesores.push(reporte);
+        if (data['tipo'] === 'estudiante') estudiantes.push(reporte);
       });
 
       return { profesores, estudiantes };
@@ -62,4 +72,6 @@ export class ReportesService {
       return { profesores: [], estudiantes: [] };
     }
   }
+
+
 }

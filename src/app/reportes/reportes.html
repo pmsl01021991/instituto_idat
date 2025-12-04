@@ -22,32 +22,33 @@
   </div>
 </nav>
 
-<section class="reportes-header">
-  <h1>📊 Reportes del Sistema</h1>
-  <p class="subtitulo">Monitoreo centralizado de mensajes enviados por profesores y estudiantes</p>
-</section>
+<div class="page-wrapper">
+  <section class="reportes-header">
+    <h1>📊 Reportes del Sistema</h1>
+    <p class="subtitulo">Monitoreo centralizado de mensajes enviados por profesores y estudiantes</p>
+  </section>
 
-<div class="grid">
+  <div class="grid">
 
-  <!-- PROFESORES -->
-  <div class="col">
-    <h2>👩‍🏫 Reportes de Profesores</h2>
+    <!-- PROFESORES -->
+    <div class="col">
+      <h2>👩‍🏫 Reportes de Profesores</h2>
 
-    <div *ngFor="let r of profesores" class="card">
+      <div *ngFor="let r of profesores" class="card">
 
-      <div class="remitente">
-        <strong>{{ r.remitente }}</strong>
-        <span>{{ r.correo }}</span>
+        <div class="remitente">
+          <strong>{{ r.remitente }}</strong>
+          <span>{{ r.correo }}</span>
+        </div>
+
+        <p class="texto">{{ r.texto }}</p>
+
+        <div class="fecha">
+          <i class="bi bi-clock"></i> {{ r.fecha }}
+        </div>
+
       </div>
-
-      <p class="texto">{{ r.texto }}</p>
-
-      <div class="fecha">
-        <i class="bi bi-clock"></i> {{ r.fecha }}
-      </div>
-
     </div>
-  </div>
 
   <!-- ESTUDIANTES -->
   <div class="col">
@@ -60,8 +61,6 @@
         <span>{{ r.correo }}</span>
       </div>
 
-      <p><b>Curso:</b> {{ r.curso }}</p>
-
       <p class="texto">{{ r.texto }}</p>
 
       <div class="fecha">
@@ -73,6 +72,10 @@
 
 
 </div>
+
+</div>
+
+
 
 <footer class="footer">
   <p>© 2025 Instituto Superior Tecnológico • Sistema Académico</p>
