@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CursosService } from '../../services/cursos.service';
 
 @Component({
   selector: 'app-cursos',
@@ -13,7 +14,7 @@ import { RouterModule } from '@angular/router';
 export class Cursos {
 
   cursos: any[] = [];
-  idTemp: number | null = null;
+  idTemp: string | null = null;
 
   curso = {
     nombre: '',
@@ -21,38 +22,46 @@ export class Cursos {
     creditos: null
   };
 
-  constructor() {
-    // ⬅️ Cargar cursos desde localStorage al iniciar
-    const data = localStorage.getItem('cursosSistema');
-    if (data) {
-      this.cursos = JSON.parse(data);
+  // Para validar permisos
+  esAdmin = false;
+
+  constructor(private cursosService: CursosService) {}
+
+  async ngOnInit() {
+    // Verificar rol
+    this.esAdmin = localStorage.getItem("role") === "admin";
+
+    // Si no es admin, redirigir
+    if (!this.esAdmin) {
+      alert("Solo el ADMIN puede gestionar cursos.");
+      window.location.href = "/login";
+      return;
     }
+
+    // Cargar cursos desde Firestore
+    this.cursos = await this.cursosService.obtenerCursos();
   }
 
-  // Guardar en localStorage
-  guardarLocal() {
-    localStorage.setItem('cursosSistema', JSON.stringify(this.cursos));
-  }
-
-  agregar() {
+  // ➤ Agregar o editar curso
+  async agregar() {
     if (!this.curso.nombre || !this.curso.docente || !this.curso.creditos) return;
 
     if (this.idTemp === null) {
-      // Crear
-      this.cursos.push({ ...this.curso, id: Date.now() });
+      // Crear curso
+      await this.cursosService.crearCurso(this.curso);
     } else {
-      // Editar
-      const index = this.cursos.findIndex(c => c.id === this.idTemp);
-      this.cursos[index] = { ...this.curso, id: this.idTemp };
+      // Editar curso
+      await this.cursosService.actualizarCurso(this.idTemp, this.curso);
       this.idTemp = null;
     }
 
-    // 🔥 Guardar cambios
-    this.guardarLocal();
+    // Recargar cursos
+    this.cursos = await this.cursosService.obtenerCursos();
 
     this.limpiarFormulario();
   }
 
+  // ➤ Editar curso
   editar(curso: any) {
     this.curso = {
       nombre: curso.nombre,
@@ -62,11 +71,12 @@ export class Cursos {
     this.idTemp = curso.id;
   }
 
-  eliminar(id: number) {
-    this.cursos = this.cursos.filter(c => c.id !== id);
+  // ➤ Eliminar curso
+  async eliminar(id: string) {
+    if (!confirm("¿Eliminar curso?")) return;
 
-    // 🔥 Guardar cambios
-    this.guardarLocal();
+    await this.cursosService.eliminarCurso(id);
+    this.cursos = await this.cursosService.obtenerCursos();
   }
 
   limpiarFormulario() {
@@ -74,5 +84,4 @@ export class Cursos {
   }
 
   menuOpen = false;
-
 }

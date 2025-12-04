@@ -74,29 +74,34 @@ export class Estudiante {
     this.cursoAbierto = this.cursoAbierto === i ? null : i;
   }
 
-  enviarReporte(curso: any) {
+  async enviarReporte(curso: any) {
 
     if (!curso.reporte || curso.reporte.trim() === "") {
       this.toast.error("Por favor, escribe un mensaje antes de enviar el reporte.");
       return;
     }
 
-    // 🔥 Obtener datos del estudiante desde localStorage
-    const correo = localStorage.getItem("correo") || "Correo no registrado";
-    const nombre = localStorage.getItem("nombre") || "Nombre no registrado";
+    // Datos del estudiante guardados en login
+    const correo = localStorage.getItem("correo") || "correo_no_registrado";
+    const nombre = localStorage.getItem("nombre") || "Estudiante";
 
-    // Guardar reporte en localStorage
-    this.reportesService.guardarReporte('estudiante', {
+    // Enviar a Firestore
+    const resultado = await this.reportesService.guardarReporte('estudiante', {
       remitente: nombre,
       correo: correo,
       curso: curso.nombre,
-      texto: curso.reporte,
-      fecha: new Date().toLocaleString()
+      texto: curso.reporte
     });
+
+    if (!resultado.ok) {
+      this.toast.error("Error al enviar reporte: " + resultado.mensaje);
+      return;
+    }
 
     this.toast.success("Reporte enviado correctamente.");
     curso.reporte = "";
   }
+
 
   menuOpen = false;
 

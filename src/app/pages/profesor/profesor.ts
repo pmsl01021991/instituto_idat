@@ -81,30 +81,32 @@ export class Profesor {
       ?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  enviarReporte() {
 
-    if (!this.reporteTexto.trim()) {
-      this.toast.error("El reporte no puede estar vacío.");
-      return;
+    async enviarReporte() {
+
+      if (!this.reporteTexto.trim()) {
+        this.toast.error("El reporte no puede estar vacío.");
+        return;
+      }
+
+      // Obtener datos del profesor guardados al iniciar sesión
+      const correo = localStorage.getItem("correo") || "correo_no_registrado";
+      const nombre = localStorage.getItem("nombre") || "Profesor";
+
+      const resultado = await this.reportesService.guardarReporte('profesor', {
+        remitente: nombre,
+        correo: correo,
+        texto: this.reporteTexto
+      });
+
+      if (!resultado.ok) {
+        this.toast.error("Error al enviar reporte: " + resultado.mensaje);
+        return;
+      }
+
+      this.toast.success("Reporte enviado correctamente.");
+      this.reporteTexto = "";
     }
-
-    // 🔥 Obtener datos del profesor desde localStorage
-    const correo = localStorage.getItem("correo") || "Correo no registrado";
-    const nombre = localStorage.getItem("nombre") || "Nombre no registrado";
-
-    this.reportesService.guardarReporte('profesor', {
-      texto: this.reporteTexto,
-      fecha: new Date().toLocaleString(),
-      remitente: nombre,
-      correo: correo
-    });
-
-    this.toast.success("Reporte enviado correctamente.");
-    this.reporteTexto = "";
-  }
-
-
-
 
   menuOpen = false;
 

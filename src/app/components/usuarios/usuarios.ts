@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
+import { UsuariosService } from '../../services/usuarios.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -20,15 +21,21 @@ export class Usuarios {
     tipo: ''
   };
 
-  usuariosGuardados: any[] = [];
+  usuariosGuardados: any[] = []; // Usuarios de Firestore
   buscador = "";
-  editIndex: number | null = null;
+  editUid: string | null = null;  // UID del usuario que se edita
 
-  constructor(private toast: ToastService) {
-    const data = localStorage.getItem('usuariosSistema');
-    if (data) this.usuariosGuardados = JSON.parse(data);
+  constructor(
+    private toast: ToastService,
+    private usuariosService: UsuariosService
+  ) {
+    // 🔥 Cargar usuarios reales desde Firestore
+    this.usuariosService.obtenerUsuarios().subscribe((users: any) => {
+      this.usuariosGuardados = users;
+    });
   }
 
+  // Filtro buscador
   get usuariosFiltrados() {
     return this.usuariosGuardados.filter(u =>
       u.email.toLowerCase().includes(this.buscador.toLowerCase()) ||
@@ -37,91 +44,104 @@ export class Usuarios {
     );
   }
 
-  guardarUsuario() {
+  // =========================================================
+  //   CREAR O ACTUALIZAR USUARIO
+  // =========================================================
+  async guardarUsuario() {
     const { nombre, email, pass, tipo } = this.nuevoUsuario;
 
-    if (!nombre || !email || !pass || !tipo) {
+    if (!nombre || !email || !tipo || (!this.editUid && !pass)) {
       this.toast.error("Completa todos los campos.");
       return;
     }
 
+    // Validación profesor
     if (tipo === "profesor" && !email.startsWith("pc")) {
       this.toast.error("El correo de profesor debe empezar con 'pc'.");
       return;
     }
 
+    // Validación estudiante
     if (tipo === "estudiante" && !email.startsWith("ac")) {
       this.toast.error("El correo de estudiante debe empezar con 'ac'.");
       return;
     }
 
-    if (this.editIndex === null && this.usuariosGuardados.some(u => u.email === email)) {
-      this.toast.error("Este correo ya está registrado.");
+    // ----------------------------------
+    //    EDITAR USUARIO (Firestore)
+    // ----------------------------------
+    if (this.editUid) {
+      await this.usuariosService.actualizarUsuario(this.editUid, {
+        nombre,
+        email: `${email}@idat.pe`,
+        tipo
+      });
+
+      this.toast.success("Usuario actualizado correctamente.");
+      this.editUid = null;
+      this.nuevoUsuario = { nombre: '', email: '', pass: '', tipo: '' };
       return;
     }
 
-    if (this.editIndex !== null) {
-      this.usuariosGuardados[this.editIndex] = { ...this.nuevoUsuario };
-      this.editIndex = null;
-    } 
-    else {
-      this.usuariosGuardados.push({ ...this.nuevoUsuario });
+    // ----------------------------------
+    //    CREAR USUARIO NUEVO
+    // ----------------------------------
+    const emailCompleto = `${email}@idat.pe`;
 
-      // SOLO agregar estudiantes al panel del profesor
-      if (tipo === "estudiante") {
-        const alumnos = JSON.parse(localStorage.getItem("alumnosSistema") || "[]");
+    const result = await this.usuariosService.crearUsuario(
+      nombre,
+      emailCompleto,
+      pass,
+      tipo
+    );
 
-        alumnos.push({
-          nombre: nombre,
-          correo: email
-        });
-
-        localStorage.setItem("alumnosSistema", JSON.stringify(alumnos));
-      }
+    if (!result.ok) {
+      this.toast.error("Error al crear usuario: " + result.mensaje);
+      return;
     }
 
-    localStorage.setItem('usuariosSistema', JSON.stringify(this.usuariosGuardados));
+    this.toast.success("Usuario creado correctamente.");
 
     this.nuevoUsuario = { nombre: '', email: '', pass: '', tipo: '' };
-
-    this.toast.success("Usuario guardado correctamente.");
   }
 
+  // =========================================================
+  //   CARGAR USUARIO PARA EDITAR
+  // =========================================================
   editarUsuario(i: number) {
     const usuario = this.usuariosFiltrados[i];
 
-    // índice REAL dentro de usuariosGuardados
-    const realIndex = this.usuariosGuardados.indexOf(usuario);
+    this.editUid = usuario.uid;
 
-    this.editIndex = realIndex;
+    // Quitar @idat.pe al editar
+    const correoSinDominio = usuario.email.replace("@idat.pe", "");
 
-    this.nuevoUsuario = { ...usuario };
+    this.nuevoUsuario = {
+      nombre: usuario.nombre,
+      email: correoSinDominio,
+      pass: "",
+      tipo: usuario.tipo
+    };
   }
 
+  // =========================================================
+  //   ELIMINAR USUARIO (Auth + Firestore)
+  // =========================================================
+  async eliminarUsuario(i: number) {
+    const user = this.usuariosFiltrados[i];
 
-  eliminarUsuario(i: number) {
-    if (confirm("¿Eliminar este usuario?")) {
+    if (!confirm("¿Eliminar este usuario?")) return;
 
-      const eliminado = this.usuariosGuardados[i];
+    await this.usuariosService.eliminarUsuario(user.uid);
 
-      // Si es estudiante, también eliminarlo del panel del profesor
-      if (eliminado.tipo === "estudiante") {
-        const alumnos = JSON.parse(localStorage.getItem("alumnosSistema") || "[]");
-        const filtrados = alumnos.filter((a: any) => a.correo !== eliminado.email);
-        localStorage.setItem("alumnosSistema", JSON.stringify(filtrados));
-      }
+    this.toast.success("Usuario eliminado correctamente.");
 
-      this.usuariosGuardados.splice(i, 1);
-      localStorage.setItem('usuariosSistema', JSON.stringify(this.usuariosGuardados));
-
-      // 🔥 MUY IMPORTANTE: resetear la edición
-      this.editIndex = null;
-
-      // Reiniciar formulario si estabas editando ese usuario
+    // Si estabas editando ese usuario, se resetea
+    if (this.editUid === user.uid) {
+      this.editUid = null;
       this.nuevoUsuario = { nombre: '', email: '', pass: '', tipo: '' };
     }
   }
-
 
   menuOpen = false;
 }

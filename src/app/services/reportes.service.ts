@@ -1,58 +1,65 @@
 import { Injectable } from '@angular/core';
+import {
+  Firestore,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy,
+  Timestamp
+} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportesService {
 
-  private KEY = 'reportesSistema';
+  constructor(private firestore: Firestore) {}
 
-  constructor() {
-    this.inicializarEstructura();
-  }
+  // =====================================================
+  // 🔥 1. Enviar reporte (Profesor o Estudiante)
+  // =====================================================
+  async guardarReporte(tipo: 'profesor' | 'estudiante', reporte: any) {
+    try {
+      const ref = collection(this.firestore, 'reportes');
 
-  // 🔥 Asegura que SIEMPRE existan profesores y estudiantes
-  private inicializarEstructura() {
-    const data = localStorage.getItem(this.KEY);
+      await addDoc(ref, {
+        ...reporte,
+        tipo,
+        fecha: Timestamp.now() // fecha REAL ordenable
+      });
 
-    if (!data) {
-      localStorage.setItem(this.KEY, JSON.stringify({
-        profesores: [],
-        estudiantes: []
-      }));
-      return;
+      return { ok: true };
+
+    } catch (error: any) {
+      return { ok: false, mensaje: error.message };
     }
-
-    const parsed = JSON.parse(data);
-
-    // Si falta algo, lo agregamos
-    if (!parsed.profesores) parsed.profesores = [];
-    if (!parsed.estudiantes) parsed.estudiantes = [];
-
-    // Reguardar todo corregido
-    localStorage.setItem(this.KEY, JSON.stringify(parsed));
   }
 
-  obtenerReportes() {
-    this.inicializarEstructura();
-    return JSON.parse(localStorage.getItem(this.KEY)!);
-  }
+  // =====================================================
+  // 🔥 2. Obtener TODOS los reportes ordenados
+  // =====================================================
+  async obtenerReportes() {
+    try {
+      const ref = collection(this.firestore, 'reportes');
+      const q = query(ref, orderBy("fecha", "desc"));
+      const snapshot = await getDocs(q);
 
-  guardarReporte(tipo: 'profesor' | 'estudiante', reporte: any) {
+      const profesores: any[] = [];
+      const estudiantes: any[] = [];
 
-    this.inicializarEstructura();
+      snapshot.forEach((doc) => {
+        const data = doc.data();
 
-    const data = JSON.parse(localStorage.getItem(this.KEY)!);
+        if (data['tipo'] === 'profesor') profesores.push(data);
+        if (data['tipo'] === 'estudiante') estudiantes.push(data);
+      });
 
-    // Evita bug del tipo + 'es'
-    const key = tipo === 'profesor' ? 'profesores' : 'estudiantes';
+      return { profesores, estudiantes };
 
-    if (!Array.isArray(data[key])) {
-      data[key] = [];
+    } catch (error) {
+      console.error(error);
+      return { profesores: [], estudiantes: [] };
     }
-
-    data[key].push(reporte);
-
-    localStorage.setItem(this.KEY, JSON.stringify(data));
   }
 }

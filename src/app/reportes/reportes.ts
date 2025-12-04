@@ -17,11 +17,12 @@ export class Reportes {
 
   constructor(private reportesService: ReportesService) {}
 
-  ngOnInit() {
-    const data = this.reportesService.obtenerReportes();
+  async ngOnInit() {
+    const data = await this.reportesService.obtenerReportes();
     this.profesores = data.profesores;
     this.estudiantes = data.estudiantes;
   }
+
 
   menuOpen = false;
 }

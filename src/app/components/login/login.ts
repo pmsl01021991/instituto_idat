@@ -58,44 +58,36 @@ export class Login {
   // ====================================================
   // LOGIN ÚNICAMENTE
   // ====================================================
-  login() {
+  async login() {
 
-    // LOGIN ADMIN
-    if (
-      this.loginForm.value.tipo === 'admin' &&
-      this.loginForm.value.codigo === 'admin123' &&
-      this.loginForm.value.password === 'pmsl123'
-    ) {
-      localStorage.setItem("token", "admin-token");
-      localStorage.setItem("role", "admin");
+    const tipo = this.loginForm.value.tipo;
+    const codigo = this.loginForm.value.codigo;
+    const password = this.loginForm.value.password;
 
-      this.mostrarMensaje("Bienvenido Administrador 👑", "success");
-      this.router.navigate(['/admin']);
+    if (!tipo || !codigo || !password) {
+      this.mostrarMensaje("Complete todos los campos ⚠️", "error");
       return;
     }
 
-    // CORREGIDO: BUSCAR USUARIOS EN usuariosSistema
-    const listaUsuarios = JSON.parse(localStorage.getItem("usuariosSistema") || "[]");
+    // 🔥 Convertir código → email
+    const email = codigo.includes("@") ? codigo : `${codigo}@idat.pe`;
 
-    const encontrado = listaUsuarios.find((u: any) =>
-      u.email === this.loginForm.value.codigo &&
-      u.pass === this.loginForm.value.password &&
-      u.tipo === this.loginForm.value.tipo
-    );
+    const resp = await this.authService.login(email, password);
 
-    if (!encontrado) {
-      this.mostrarMensaje("Credenciales incorrectas. Por favor, verifica tus datos.", "error");
+    if (!resp.ok) {
+      this.mostrarMensaje(resp.mensaje, "error");
       return;
     }
 
-    localStorage.setItem("token", "user-token");
-    localStorage.setItem("role", encontrado.tipo);
-    localStorage.setItem("nombre", encontrado.nombre);
-    localStorage.setItem("correo", encontrado.email);
+    const rol = resp.mensaje;
 
-    this.mostrarMensaje(`Bienvenido ${encontrado.tipo.toUpperCase()} 🎓`, "success");
+    this.mostrarMensaje(`Bienvenido ${rol.toUpperCase()} 🎉`, "success");
 
-    switch (encontrado.tipo) {
+    switch (rol) {
+      case "admin":
+        this.router.navigate(['/admin']);
+        break;
+
       case "profesor":
         this.router.navigate(['/profesor']);
         break;
@@ -104,11 +96,12 @@ export class Login {
         this.router.navigate(['/estudiante']);
         break;
 
-      case "admin": // Se agrega por si creas admins desde el módulo Usuarios
-        this.router.navigate(['/admin']);
-        break;
+      default:
+        this.mostrarMensaje("Rol no reconocido", "error");
     }
   }
+
+
 
   mostrarMensaje(texto: string, tipo: "success" | "error" | "info") {
 
