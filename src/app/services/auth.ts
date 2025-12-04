@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, User } from '@angular/fire/auth';
-import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, doc, docData } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -29,19 +29,20 @@ export class AuthService {
 
       // 🔥 OBTENER ROL DESDE FIRESTORE
       const userRef = doc(this.firestore, `usuarios/${user.uid}`);
-      const snap = await getDoc(userRef);
 
-      if (!snap.exists()) {
+      const data: any = await docData(userRef, { idField: 'uid' }).toPromise();
+
+      if (!data) {
         return { ok: false, mensaje: "El usuario no tiene rol asignado." };
       }
 
-      const data: any = snap.data();
       const rol = data.tipo;
+
 
       // 🔥 GUARDAR TODO EN LOCALSTORAGE
       localStorage.setItem("token", token);
       localStorage.setItem("role", rol);
-      localStorage.setItem("correo", email);
+      localStorage.setItem("correo", data.email);
       localStorage.setItem("nombre", data.nombre || "");
 
       return { ok: true, mensaje: rol };
