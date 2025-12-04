@@ -160,6 +160,22 @@ Firebase mostrará la URL final:
 
 🔗 **https://examen-final-d4923.web.app**
 
+2. Construye el proyecto para producción
+
+Ejecuta:
+
+ng build
+
+Esto generará la carpeta:
+
+dist/tu-proyecto/
+
+5. Realiza el deploy
+
+Aquí es donde se suben los cambios:
+
+firebase deploy
+
 ------------------------------------------------------------------------
 
 ## ✅ Resultado

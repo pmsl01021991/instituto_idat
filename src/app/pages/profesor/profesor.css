@@ -1,3 +1,9 @@
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+
 /* ============================================
    NAVBAR
 ============================================ */
@@ -73,7 +79,7 @@
 ============================================ */
 .hero-prof {
   display: flex;
-  height: 150vh;
+  min-height: 100vh;
   background: linear-gradient(90deg, #8b2ff8 50%, white 50%);
 }
 
@@ -177,29 +183,88 @@
 }
 
 .reportes-section {
-  margin-top: 50px;
-  padding: 20px;
-  background: #f7f7f7;
-  border-radius: 10px;
+  width: 100% !important;
+  max-width: 100%;
+  padding: 10px !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+  margin: 0 !important; /* 🔥 evita que el padding genere overflow */
 }
 
+.reportes-section * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+
 .reporte-textarea {
-  width: 100%;
+  width: 100% !important;
+  max-width: 100%;
+  box-sizing: border-box !important; /* 🔥 necesario para que NO se pase */
   height: 120px;
-  padding: 10px;
+  padding: 10px !important;
   font-size: 15px;
   border-radius: 8px;
   resize: none;
+  margin: 0 !important;
 }
 
+
 .btn-enviar {
-  margin-top: 10px;
-  padding: 10px 20px;
+  width: auto !important;
+  max-width: 100%;
+  box-sizing: border-box !important;
+  margin: 10px 0 0 0 !important;
+  padding: 10px 18px !important; /* reducido */
   border: none;
   background: #1976d2;
   color: white;
   border-radius: 8px;
   cursor: pointer;
+  margin: 15px 0 0 0 !important;
+  display: inline-block !important;
+  border-radius: 6px;
+}
+
+.alumnos-section {
+  overflow-x: hidden;
+}
+
+/* 🛠 FIX GLOBAL para eliminar scroll horizontal en móviles */
+* {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 🛠 Títulos centrados y sin desplazamiento */
+.title-section {
+  margin: 0 auto !important;
+  padding: 10px 0 !important;
+  text-align: center !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+/* 🛠 Sección de alumnos sin desplazamiento lateral */
+.alumnos-section {
+  padding: 20px 10px !important;
+  margin: 0 !important;
+  width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* 🛠 Lista de alumnos sin forzar desbordamiento */
+.alumnos-list li {
+  width: 100% !important;
+  margin: 0 0 15px 0 !important;
+  padding: 15px !important;
+  overflow-x: hidden !important;
+}
+
+/* 🛠 Fix adicional: eliminar cualquier diferencia mínima */
+section, div, nav, header, footer {
+  overflow-x: hidden !important;
 }
 
 
@@ -211,6 +276,8 @@
   color: white;
   font-size: 14px;
   margin-top: 0;
+  max-width: 100%;      /* 🔥 evita estiramientos */
+  overflow-x: hidden;
   box-sizing: border-box;  /* ✔ Evita desbordes */
 }
 
@@ -274,14 +341,91 @@
     padding: 18px 20px;
   }
 
+    /* 🔥 HERO RESPONSIVE CORRECTO (igual al admin) */
+  .hero-prof {
+    flex-direction: column;       /* ✔ imagen debajo */
+    background: #8b2ff8;          /* ✔ color sólido, NO dividido */
+    min-height: auto;             /* ✔ altura automática */
+    text-align: center;
+  }
+
+  .hero-prof .left {
+    width: 100%;
+    padding: 40px 20px;
+  }
+
+  .hero-prof .right {
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-prof img {
+    width: 93%;
+    height: auto;
+    object-fit: cover;           /* ✔ imagen sin deformación */
+  }
+
+
   .footer {
-    font-size: 13px;
+    width: 100%;
+    max-width: 100%;
     padding: 16px 10px;
+    overflow-x: hidden;  /* 🔥 evita scroll */
   }
 }
 
+/* 🔥 FIX CRÍTICO: evitar que la lista se salga en móviles */
+@media (max-width: 600px) {
+  .alumnos-list li {
+    flex-direction: column;     /* Los botones bajan debajo del nombre */
+    align-items: flex-start;    /* Se alinean correctamente */
+    width: 100%;
+    box-sizing: border-box;
+    gap: 10px;
+  }
+
+  .actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .actions button {
+    flex: none;
+  }
+}
+
+
 /* --- CELULARES --- */
 @media (max-width: 480px) {
+
+  /* 🔥 HERO RESPONSIVO CORREGIDO */
+  .hero-prof {
+    flex-direction: column;        /* Imagen abajo */
+    height: auto;                  /* Ya NO fuerza altura */
+    background: #8b2ff8;          /* Fondo simple sin dividir */
+    text-align: center;
+  }
+
+  .hero-prof .left {
+    width: 100%;
+    padding: 40px 20px;
+  }
+
+  .hero-prof .right {
+    width: 100%;
+    height: auto;                 /* Permite que imagen fluya */
+    overflow: visible;            /* Ya no corta la imagen */
+  }
+
+  .hero-prof img {
+    width: 100%;
+    height: auto;                 /* Mantiene proporción */
+    object-fit: cover;            /* Se ajusta limpio */
+    border-radius: 0;
+  }
+
   .hero-prof h1 {
     font-size: 28px;
   }
