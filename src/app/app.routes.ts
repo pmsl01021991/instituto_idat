@@ -43,7 +43,7 @@ export const routes: Routes = [
 
   { path: 'cursos', component: Cursos, canActivate: [AuthGuard] },
 
-  // 🔥 ESTAS SON LAS IMPORTANTES
+  
   {
     path: 'admin',
     component: Admin,
