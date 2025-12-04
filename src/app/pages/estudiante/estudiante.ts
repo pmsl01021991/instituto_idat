@@ -27,7 +27,7 @@ export class Estudiante {
     {
       nombre: "Seminario Sobre Retos y Reflexiones Sociales",
       docente: "Dr. Luis Martínez",
-      notas: "Aún no registradas",
+      notas: "17, 16, 19",
       color: "amarillo",
       reporte: ""
     },
