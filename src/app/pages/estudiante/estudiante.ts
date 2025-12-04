@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ReportesService } from '../../services/reportes.service';
+
 
 @Component({
   standalone: true,
@@ -13,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class Estudiante {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private reportesService: ReportesService) {}
   logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
@@ -72,15 +74,29 @@ export class Estudiante {
   }
 
   enviarReporte(curso: any) {
+
     if (!curso.reporte || curso.reporte.trim() === "") {
       alert("Por favor, escribe un mensaje antes de enviar el reporte.");
       return;
     }
 
-    alert(`Reporte enviado para el curso:\n\n${curso.nombre}\n\nContenido:\n${curso.reporte}`);
+    // 🔥 Obtener datos del estudiante desde localStorage
+    const correo = localStorage.getItem("correo") || "Correo no registrado";
+    const nombre = localStorage.getItem("nombre") || "Nombre no registrado";
+
+    // Guardar reporte en localStorage
+    this.reportesService.guardarReporte('estudiante', {
+      remitente: nombre,
+      correo: correo,
+      curso: curso.nombre,
+      texto: curso.reporte,
+      fecha: new Date().toLocaleString()
+    });
+
+    alert("Reporte enviado correctamente.");
     curso.reporte = "";
   }
-
+  
   menuOpen = false;
 
 }
