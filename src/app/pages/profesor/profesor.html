@@ -4,19 +4,20 @@
         <span class="sub">Panel Académico</span>
     </div>
 
-    <button class="admin-hamburger" (click)="menuOpen = !menuOpen">
-      <i class="bi" [ngClass]="menuOpen ? 'bi-x-lg' : 'bi-list'"></i>
-    </button>
-
+    
 
     <nav class="menu-prof" [class.open]="menuOpen">
         <a (click)="scrollToAlumnos()">Alumnos</a>
         <a routerLink="/notas">Notas</a>
         <a routerLink="/cursos">Cursos</a>
         <a (click)="scrollToReportes()">Reportes</a>
-        <a class="logout-btn" (click)="logout()">Cerrar sesión</a>
-        
+        <a class="logout-btn" (click)="logout()">Cerrar sesión</a>     
     </nav>
+
+    <!-- Botón hamburguesa -->
+        <button class="prof-hamburger" (click)="menuOpen = !menuOpen">
+            <i class="bi bi-list"></i>
+        </button>
 
 </header>
 

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReportesService } from '../../services/reportes.service';
+import { ToastService } from '../../services/toast.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { ReportesService } from '../../services/reportes.service';
 })
 export class Estudiante {
 
-  constructor(private router: Router, private reportesService: ReportesService) {}
+  constructor(private router: Router, private reportesService: ReportesService, private toast: ToastService) {}
   logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
@@ -76,7 +77,7 @@ export class Estudiante {
   enviarReporte(curso: any) {
 
     if (!curso.reporte || curso.reporte.trim() === "") {
-      alert("Por favor, escribe un mensaje antes de enviar el reporte.");
+      this.toast.error("Por favor, escribe un mensaje antes de enviar el reporte.");
       return;
     }
 
@@ -93,10 +94,10 @@ export class Estudiante {
       fecha: new Date().toLocaleString()
     });
 
-    alert("Reporte enviado correctamente.");
+    this.toast.success("Reporte enviado correctamente.");
     curso.reporte = "";
   }
-  
+
   menuOpen = false;
 
 }

@@ -9,14 +9,14 @@
         <span class="nav-title">Instituto Superior - Gestión de Cursos</span>
       </div>
 
-      <button class="hamburger" type="button" (click)="menuOpen = !menuOpen">
-        <i class="bi" [ngClass]="menuOpen ? 'bi-x-lg' : 'bi-list'"></i>
-      </button>
-
       <div class="nav-right" [class.open]="menuOpen">
         <a routerLink="/admin">Panel Admin</a>
         <a routerLink="/usuarios">Usuarios</a>        
       </div>
+
+      <button class="hamburger" type="button" (click)="menuOpen = !menuOpen">
+        <i class="bi bi-list"></i>
+      </button>
 
     </div>
   </nav>

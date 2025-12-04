@@ -86,16 +86,25 @@
 }
 
 /* ==========================
-   CARDS
+   TARJETA PROFESIONAL
 ========================== */
+
 .card {
   background: white;
-  padding: 18px;
-  margin-bottom: 15px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: 0.25s ease;
+  border-left: 5px solid #0d47a1;
 }
 
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+/* REMITENTE (NOMBRE + CORREO) */
 .remitente strong {
   font-size: 17px;
   color: #0d47a1;
@@ -104,25 +113,52 @@
 .remitente span {
   display: block;
   font-size: 13px;
-  color: #777;
+  color: #666;
+  margin-top: -3px;
 }
 
+/* TEXTO DEL REPORTE */
 .texto {
   margin-top: 10px;
+  color: #333;
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.55;
+  padding: 10px 12px;
+  background: #f8faff;
+  border-radius: 8px;
+  border-left: 3px solid #bbdefb;
 }
 
+/* FECHA */
 .fecha {
-  margin-top: 10px;
-  color: #666;
-  font-size: 13px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #555;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
-/* BOTÓN HAMBURGUESA */
+.fecha i {
+  font-size: 16px;
+  color: #0d47a1;
+}
+
+/* CURSO PARA ESTUDIANTES */
+.col p b {
+  color: #0d47a1;
+}
+
+/* COLUMNA ESTÉTICA */
+.col {
+  background: #f7f9fc;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid #e0e6ef;
+}
+
+
+/* BOTÓN HAMBURGUESA CON ANIMACIÓN */
 .hamburger {
   display: none;
   background: transparent;
@@ -130,11 +166,18 @@
   color: white;
   font-size: 32px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: transform 0.35s ease, color 0.25s ease;
 }
 
 .hamburger:hover {
   color: #bbdefb;
+  transform: scale(1.15);
+}
+
+/* ÍCONO ANIMADO */
+.hamburger i {
+  display: inline-block;
+  transition: transform 0.35s ease, opacity 0.25s ease;
 }
 
 /* ==========================
@@ -166,21 +209,44 @@
 
   .hamburger {
     display: block;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 34px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
   }
 
+  /* Animación ligera al presionar */
+  .hamburger:active {
+    transform: scale(0.85);
+  }
+
+  /* Contenedor de los enlaces */
   .nav-right {
-    display: none;
+    width: 100%;
+    display: flex;
     flex-direction: column;
     background: #0d47a1;
-    width: 100%;
-    padding: 15px 0;
-    gap: 12px;
-    margin-top: 10px;
-    border-top: 1px solid rgba(255,255,255,0.2);
+    
+    /* Animación de apertura suave */
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 0;
+    transition: max-height 0.4s ease, padding 0.3s ease;
   }
 
+  /* Cuando se abre */
   .nav-right.open {
-    display: flex;
+    max-height: 500px; /* suficiente para mostrar los enlaces */
+    padding: 15px 0;
+  }
+
+  .nav-right a {
+    padding: 10px 20px;
+    width: 100%;
+    color: #e3f2fd;
+    font-size: 18px;
   }
 }
 

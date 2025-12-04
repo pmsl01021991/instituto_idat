@@ -40,15 +40,38 @@
     transition: .3s;
 }
 
-/* BOTÓN HAMBURGUESA (oculto en desktop) */
+/* BOTÓN HAMBURGUESA (igual que reportes, pero sin cambiar a X) */
 .admin-hamburger {
-    display: none;
-    font-size: 30px;
-    background: transparent;
-    border: none;
-    color: white;
-    cursor: pointer;
+  display: none;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 34px;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.25s ease;
 }
+
+.admin-hamburger:hover {
+  color: #ffca28;
+  transform: scale(1.15);
+}
+
+/* Ícono del menú (sin cambiar a X, solo animación) */
+.admin-hamburger i {
+  transition: transform 0.3s ease;
+}
+.admin-hamburger:active i {
+  transform: scale(0.8);
+}
+
+/* Menú estilo panel móvil con animación suave */
+.menu-admin {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+}
+
 
 /* ==========================
    HERO SECTION
@@ -169,28 +192,39 @@
 
   /* Mostrar hamburguesa */
   .admin-hamburger {
-      display: block;
+    display: block;
+    margin-left: auto; /* 👉 LO PEGA A LA DERECHA */
   }
 
-  /* Ocultar menú */
+  /* Menú oculto inicialmente */
   .menu-admin {
-      display: none;
-      flex-direction: column;
-      background: #111;
-      width: 100%;
-      padding: 15px 0;
-      position: absolute;
-      top: 70px;
-      left: 0;
-      z-index: 999;
+    flex-direction: column;
+    background: #111;
+    width: 100%;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    z-index: 999;
+
+    /* Animación suave */
+    transition: max-height 0.45s ease, padding 0.3s ease;
   }
 
+  /* Menú abierto */
   .menu-admin.open {
-      display: flex;
+    max-height: 400px; /* suficiente para mostrar todo */
+    padding: 15px 0;
   }
 
   .menu-admin a {
-    padding: 10px 0;
+    padding: 12px 20px;
+    font-size: 17px;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
 
   .navbar-admin {

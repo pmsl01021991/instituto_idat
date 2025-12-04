@@ -43,15 +43,30 @@
   transition: .3s;
 }
 
-/* --- HAMBURGUESA (ÚNICA Y FINAL) --- */
-.admin-hamburger {
+/* BOTÓN HAMBURGUESA (movimiento suave igual que reportes) */
+.prof-hamburger {
+  display: none;
   background: transparent;
   border: none;
   color: white;
   font-size: 32px;
   cursor: pointer;
-  display: none;
+  transition: transform 0.35s ease, color 0.25s ease;
 }
+
+.prof-hamburger:hover {
+  color: #a86cf2;
+  transform: scale(1.15);
+}
+
+.prof-hamburger i {
+  transition: transform 0.3s ease;
+}
+
+.prof-hamburger:active i {
+  transform: scale(0.85);
+}
+
 
 /* ============================================
    HERO SECTION
@@ -206,49 +221,57 @@
 /* --- TABLETS Y MÓVILES --- */
 @media (max-width: 768px) {
 
-  .admin-hamburger {
+   .prof-hamburger {
     display: block;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 34px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-left: auto;
   }
 
+  .prof-hamburger:active {
+    transform: scale(0.85);
+  }
+
+  /* MENU ANIMADO IGUAL AL DE REPORTES */
   .menu-prof {
-    display: none;
+    width: 100%;
+    display: block;     /* 👈 IMPORTANTE: NO flex aquí */
     flex-direction: column;
     background: #000;
-    position: absolute;
-    top: 70px;
-    right: 20px;
-    padding: 20px;
-    width: 180px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+
+    max-height: 0;     
+    overflow: hidden;
+    padding: 0;
+    transition: max-height 1.5s ease, padding 0.8s ease;
   }
 
   .menu-prof.open {
-    display: flex;
+    max-height: 500px;
+    padding: 15px 0;
   }
 
   .menu-prof a {
-    margin: 12px 0;
-  }
-
-  .hero-prof {
-    flex-direction: column;
-    height: auto;
+    padding: 12px 20px;
     text-align: center;
-    background: #8b2ff8;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    display: block;     /* 🔥 Asegura que cada enlace ocupe toda la línea */
   }
 
-  .hero-prof .left,
-  .hero-prof .right {
-    width: 94%;
-    padding: 40px 20px;
-  }
-
-  .actions {
-    margin-top: 10px;
+  .logout-btn {
     width: 100%;
-    display: flex;
-    justify-content: flex-end;
+    margin-top: 12px;
+    border-radius: 0;
+    text-align: center;
+    display: block;
+  }
+
+  .navbar-prof {
+    padding: 18px 20px;
   }
 
   .footer {

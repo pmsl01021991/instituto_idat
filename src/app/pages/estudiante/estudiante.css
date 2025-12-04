@@ -178,16 +178,10 @@ textarea {
 }
 
 
-
-/* BOTÓN HAMBURGUESA */
-.hamburger {
-  display: none;
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 32px;
-  cursor: pointer;
-  transition: 0.2s;
+/* ÍCONO ANIMADO */
+.hamburger i {
+  display: inline-block;
+  transition: transform 0.35s ease, opacity 0.25s ease;
 }
 
 /* ==========================

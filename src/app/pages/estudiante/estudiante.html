@@ -8,10 +8,6 @@
         <span class="nav-title">Instituto Superior </span>
       </div>
 
-      <button class="hamburger" type="button" (click)="menuOpen = !menuOpen">
-        <i class="bi" [ngClass]="menuOpen ? 'bi-x-lg' : 'bi-list'"></i>
-      </button>
-
       <div class="nav-right" [class.open]="menuOpen">
         <a class="logout-btn" (click)="logout()">Cerrar sesión</a>
       </div>

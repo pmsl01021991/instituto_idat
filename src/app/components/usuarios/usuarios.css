@@ -301,7 +301,7 @@ button[title]:hover::after {
 
 
 
-/* BOTÓN HAMBURGUESA */
+/* BOTÓN HAMBURGUESA CON ANIMACIÓN */
 .hamburger {
   display: none;
   background: transparent;
@@ -309,11 +309,18 @@ button[title]:hover::after {
   color: white;
   font-size: 32px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: transform 0.35s ease, color 0.25s ease;
 }
 
 .hamburger:hover {
   color: #bbdefb;
+  transform: scale(1.15);
+}
+
+/* ÍCONO ANIMADO */
+.hamburger i {
+  display: inline-block;
+  transition: transform 0.35s ease, opacity 0.25s ease;
 }
 
 
