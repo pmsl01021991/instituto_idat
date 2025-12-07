@@ -7,6 +7,11 @@
       <span class="nav-title">Panel de Reportes</span>
     </div>
 
+    <button class="darkmode-btn" (click)="toggleDarkMode()">
+      <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
+    </button>
+
+
     
 
     <div class="nav-right" [class.open]="menuOpen">

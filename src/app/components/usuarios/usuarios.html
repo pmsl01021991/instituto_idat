@@ -7,6 +7,12 @@
       <span class="nav-title">Instituto Superior - Gestión de Usuarios</span>
     </div>
 
+    <!-- BOTÓN MODO OSCURO / CLARO -->
+    <button class="darkmode-btn" (click)="toggleDarkMode()">
+      <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
+    </button>
+
+
      <!-- BOTÓN HAMBURGUESA -->
     <button class="hamburger" type="button" (click)="menuOpen = !menuOpen">
       <i class="bi" [ngClass]="menuOpen ? 'bi-x-lg' : 'bi-list'"></i>

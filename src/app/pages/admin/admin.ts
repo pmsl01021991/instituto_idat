@@ -17,6 +17,18 @@ export class Admin {
   localStorage.removeItem("role");
   this.router.navigate(['/login']);
 }
+
+  isDarkMode = false;
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+
+    if (this.isDarkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }
   menuOpen = false;
 }
 

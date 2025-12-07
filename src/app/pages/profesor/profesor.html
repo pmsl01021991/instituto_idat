@@ -4,6 +4,9 @@
         <span class="sub">Panel Académico</span>
     </div>
 
+    <button class="darkmode-btn" (click)="toggleDarkMode()">
+      <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
+    </button>
     
 
     <nav class="menu-prof" [class.open]="menuOpen">

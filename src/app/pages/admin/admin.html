@@ -4,6 +4,11 @@
       <span class="sub">Panel de Control</span>
   </div>
 
+  <button class="darkmode-btn" (click)="toggleDarkMode()">
+    <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
+  </button>
+
+
   <button class="admin-hamburger" (click)="menuOpen = !menuOpen">
     <i class="bi bi-list"></i>
   </button>

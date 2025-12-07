@@ -8,6 +8,11 @@
         <span class="nav-title">Instituto Superior </span>
       </div>
 
+      <button class="darkmode-btn" (click)="toggleDarkMode()">
+        <i class="bi" [ngClass]="isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
+      </button>
+
+
       <div class="nav-right" [class.open]="menuOpen">
         <a class="logout-btn" (click)="logout()">Cerrar sesión</a>
       </div>

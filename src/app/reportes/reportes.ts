@@ -23,6 +23,19 @@ export class Reportes {
     this.estudiantes = data.estudiantes;
   }
 
+  isDarkMode = false;
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+
+    if (this.isDarkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }
+
+
 
   menuOpen = false;
 }
