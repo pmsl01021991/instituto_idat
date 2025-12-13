@@ -12,6 +12,74 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## 🎯 Descripción del Proyecto
+
+La aplicación es un sistema web que permite gestionar usuarios, cursos y reportes, con acceso controlado según el rol del usuario (**Administrador, Profesor y Estudiante**).  
+El sistema integra **Firebase Authentication** y **Firestore**, permitiendo una comunicación segura entre el frontend y el backend.
+
+---
+
+## 👥 Roles del Sistema
+
+- **Administrador**
+  - Gestión de usuarios
+  - Gestión de cursos
+  - Visualización de reportes
+
+- **Profesor**
+  - Visualización de estudiantes
+  - Envío de reportes
+
+- **Estudiante**
+  - Visualización de cursos
+  - Envío de reportes
+
+---
+
+## 🏗️ Arquitectura de la Aplicación
+
+La aplicación sigue una **arquitectura por capas**, organizada de la siguiente manera:
+
+app/
+├── pages → Pantallas principales (features)
+├── components → Componentes reutilizables
+├── services → Lógica de negocio y acceso a datos
+├── guards → Seguridad y control de acceso
+
+yaml
+Copiar código
+
+- **pages**: cada carpeta representa una funcionalidad completa del sistema.
+- **components**: componentes reutilizables como login, usuarios y cursos.
+- **services**: encapsulan la comunicación con Firebase.
+- **guards**: controlan el acceso según autenticación y rol.
+
+---
+
+## 🔌 Servicios REST Integrados
+
+La aplicación consume servicios REST proporcionados por Firebase:
+
+- **Firebase Authentication**: inicio de sesión y control de sesión.
+- **Firestore**: almacenamiento y recuperación de datos (usuarios, cursos y reportes).
+
+La comunicación se realiza mediante **servicios Angular**, utilizando:
+- `async/await` para promesas
+- `Observable` para datos en tiempo real
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+- Angular 20
+- TypeScript
+- Firebase Authentication
+- Firebase Firestore
+- Firebase Hosting
+- HTML5 / CSS3
+
+---
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
@@ -170,7 +238,7 @@ Esto generará la carpeta:
 
 dist/tu-proyecto/
 
-5. Realiza el deploy
+7. Realiza el deploy
 
 Aquí es donde se suben los cambios:
 
