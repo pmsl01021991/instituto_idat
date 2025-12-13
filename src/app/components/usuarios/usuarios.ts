@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { UsuariosService } from '../../services/usuarios.service';
+import { OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-usuarios',
@@ -12,8 +16,8 @@ import { UsuariosService } from '../../services/usuarios.service';
   templateUrl: './usuarios.html',
   styleUrls: ['./usuarios.css']
 })
-export class Usuarios {
-
+export class Usuarios implements OnInit, OnDestroy {
+  usuariosSub!: Subscription
   nuevoUsuario = {
     nombre: '',
     email: '',
@@ -28,12 +32,7 @@ export class Usuarios {
   constructor(
     private toast: ToastService,
     private usuariosService: UsuariosService
-  ) {
-    // 🔥 Cargar usuarios reales desde Firestore
-    this.usuariosService.obtenerUsuarios().subscribe((users: any) => {
-      this.usuariosGuardados = users;
-    });
-  }
+  ) { }
 
   // Filtro buscador
   get usuariosFiltrados() {
@@ -145,26 +144,43 @@ export class Usuarios {
 
   isDarkMode = false;
 
-ngOnInit() {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
-    this.isDarkMode = true;
-    document.body.classList.add('dark-mode');
+  ngOnInit() {
+    this.usuariosSub = this.usuariosService.obtenerUsuarios().subscribe({
+      next: (users: any[]) => {
+        this.usuariosGuardados = users;
+      },
+      error: () => {
+        this.toast.error('Error cargando usuarios');
+      }
+    });
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      this.isDarkMode = true;
+      document.body.classList.add('dark-mode');
+    }
   }
-}
 
-toggleDarkMode() {
-  this.isDarkMode = !this.isDarkMode;
-
-  if (this.isDarkMode) {
-    document.body.classList.add('dark-mode');
-    localStorage.setItem('theme', 'dark');
-  } else {
-    document.body.classList.remove('dark-mode');
-    localStorage.setItem('theme', 'light');
+  ngOnDestroy() {
+    if (this.usuariosSub) {
+      this.usuariosSub.unsubscribe();
+    }
   }
-}
 
 
-  menuOpen = false;
-}
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+
+    menuOpen = false;
+  }

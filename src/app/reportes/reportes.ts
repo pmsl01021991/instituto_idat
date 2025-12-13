@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportesService } from '../services/reportes.service';
 import { RouterModule } from '@angular/router';
@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './reportes.html',
   styleUrls: ['./reportes.css']
 })
-export class Reportes {
+export class Reportes implements OnInit{
 
   profesores: any[] = [];
   estudiantes: any[] = [];
@@ -18,9 +18,14 @@ export class Reportes {
   constructor(private reportesService: ReportesService) {}
 
   async ngOnInit() {
-    const data = await this.reportesService.obtenerReportes();
-    this.profesores = data.profesores;
-    this.estudiantes = data.estudiantes;
+    try {
+      const data = await this.reportesService.obtenerReportes();
+      this.profesores = data.profesores;
+      this.estudiantes = data.estudiantes;
+    } catch (error) {
+      console.error(error);
+      // opcional: toast o alert
+    }
   }
 
   isDarkMode = false;

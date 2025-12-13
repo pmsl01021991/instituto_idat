@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class Login {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toast: ToastService
   ) {
 
     this.loginForm = this.fb.group({
@@ -51,7 +53,7 @@ export class Login {
   }
 
   alertarSiNoRol() {
-    this.mostrarMensaje("Primero escoge tu rol ⚠️", "info");
+    this.toast.info("Primero escoge tu rol ⚠️");
   }
 
 
@@ -65,7 +67,7 @@ export class Login {
     const password = this.loginForm.value.password;
 
     if (!tipo || !codigo || !password) {
-      this.mostrarMensaje("Complete todos los campos ⚠️", "error");
+      this.toast.error("Complete todos los campos ⚠️");
       return;
     }
 
@@ -75,13 +77,13 @@ export class Login {
     const resp = await this.authService.login(email, password);
 
     if (!resp.ok) {
-      this.mostrarMensaje(resp.mensaje, "error");
+      this.toast.error(resp.mensaje);
       return;
     }
 
     const rol = resp.mensaje;
 
-    this.mostrarMensaje(`Bienvenido ${rol.toUpperCase()} 🎉`, "success");
+    this.toast.success(`Bienvenido ${rol.toUpperCase()} 🎉`);
 
     switch (rol) {
       case "admin":
@@ -97,33 +99,8 @@ export class Login {
         break;
 
       default:
-        this.mostrarMensaje("Rol no reconocido", "error");
+        this.toast.error("Rol no reconocido");
     }
   }
-
-
-
-  mostrarMensaje(texto: string, tipo: "success" | "error" | "info") {
-
-    const toast = document.createElement("div");
-    toast.classList.add("toast-mensaje", tipo);
-    toast.textContent = texto;
-
-    // 🔥 Inserta SIEMPRE en el <body> global
-    document.body.appendChild(toast);
-
-    // Animación de entrada
-    setTimeout(() => {
-      toast.classList.add("show");
-    });
-
-    // Remover después de 3s
-    setTimeout(() => {
-      toast.classList.remove("show");
-      setTimeout(() => toast.remove(), 300);
-    }, 3000);
-  }
-
-
 
 }

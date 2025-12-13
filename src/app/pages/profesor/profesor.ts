@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,8 @@ import { ReportesService } from '../../services/reportes.service';
 import { ToastService } from '../../services/toast.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { Firestore } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'profesor-navbar',
@@ -15,9 +17,10 @@ import { Firestore } from '@angular/fire/firestore';
   templateUrl: './profesor.html',
   styleUrls: ['./profesor.css']
 })
-export class Profesor {
+export class Profesor implements OnInit, OnDestroy{
 
   reporteTexto: string = "";
+  alumnosSub!: Subscription;
   alumnos: any[] = [];
   buscador = "";
   menuOpen = false;
@@ -27,13 +30,7 @@ export class Profesor {
     private reportesService: ReportesService,
     private toast: ToastService,
     private usuariosService: UsuariosService
-  ) {
-
-    // 🔥 Cargar ESTUDIANTES REALES desde Firestore
-    this.usuariosService.obtenerEstudiantes().subscribe((lista) => {
-      this.alumnos = lista;
-    });
-  }
+  ) {}
 
   logout() {
     localStorage.removeItem("token");
@@ -85,6 +82,25 @@ export class Profesor {
     document.getElementById('reportesSection')
       ?.scrollIntoView({ behavior: 'smooth' });
   }
+
+  ngOnInit() {
+    this.alumnosSub = this.usuariosService.obtenerEstudiantes().subscribe({
+      next: (lista: any[]) => {
+        this.alumnos = lista;
+      },
+      error: () => {
+        this.toast.error('Error cargando estudiantes');
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.alumnosSub) {
+      this.alumnosSub.unsubscribe();
+    }
+  }
+
+
 
   isDarkMode = false;
 

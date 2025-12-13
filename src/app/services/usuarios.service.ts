@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { catchError, throwError } from 'rxjs';
 import { Auth, createUserWithEmailAndPassword, deleteUser } from '@angular/fire/auth';
 import { 
   Firestore, 
@@ -48,15 +49,26 @@ export class UsuariosService {
   // =======================================================
   obtenerUsuarios(): Observable<any[]> {
     const coleccion = collection(this.firestore, 'usuarios');
-    return collectionData(coleccion, { idField: 'uid' }) as Observable<any[]>;
+
+    return collectionData(coleccion, { idField: 'uid' }).pipe(
+      catchError(error => {
+        console.error('Error obteniendo usuarios:', error);
+        return throwError(() => error);
+      })
+    ) as Observable<any[]>;
   }
 
   obtenerEstudiantes() {
     const ref = collection(this.firestore, 'usuarios');
+
     return collectionData(ref, { idField: 'uid' }).pipe(
-        map((usuarios: any[]) => usuarios.filter(u => u.tipo === 'estudiante'))
+      map((usuarios: any[]) => usuarios.filter(u => u.tipo === 'estudiante')),
+      catchError(error => {
+        console.error('Error obteniendo estudiantes:', error);
+        return throwError(() => error);
+      })
     );
-    }
+  }
 
 
   // =======================================================
